@@ -14,10 +14,16 @@ public class Line implements Drawable{
         endZ = end.z;
     }
     @Override
-    public void render(Graphics g, int width, int height) {
+    public void render(Graphics g, Pov pov) {
         g.setColor(Color.RED);
         if(startZ != 0 && endZ != 0) {
-        g.drawLine((int)(startX/startZ), (int)(startY/startZ), (int)(endX/endZ), (int)(endY/endZ));
+        //g.drawLine((int)(startX + (pov.width/2) /startZ), (int)(startY + (pov.height/2)/startZ), (int)(endX + (pov.width/2) /endZ), (int)(endY + (pov.height/2)/endZ));
+        g.drawLine (
+        (int) ((pov.width/2 + pov.x) + (startX / (startZ- pov.z))), 
+        (int) ((pov.height/2 + pov.y) - (startY / (startZ- pov.z))), 
+        (int) ((pov.width/2 + pov.x) + (endX / (endZ- pov.z))), 
+        (int) ((pov.height/2 + pov.y) - (endY / (endZ- pov.z)))
+        );
         }
     }
     @Override

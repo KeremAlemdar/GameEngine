@@ -35,9 +35,9 @@ public void tick() {
 }
 
 @Override
-public void render(Graphics g, int width, int height) {
+public void render(Graphics g, Pov pov) {
     for(int i = 0; i < drawables.size(); i++) {
-        drawables.get(i).render(g, width, height);
+        drawables.get(i).render(g, pov);
     }
     
 }

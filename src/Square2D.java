@@ -5,10 +5,11 @@ public class Square2D implements Drawable{
 ArrayList<Line> lines;
     public Square2D (Point start, int size) {
         lines = new ArrayList<Line>();
-        lines.add(new Line(new Point(start.x,start.y,start.z),new Point (start.x+size,start.y,start.z)));
-        lines.add(new Line(new Point(start.x,start.y,start.z),new Point (start.x,start.y+size,start.z)));
-        lines.add(new Line(new Point(start.x+size,start.y,start.z),new Point (start.x+size,start.y+size,start.z)));
-        lines.add(new Line(new Point(start.x,start.y+size,start.z),new Point (start.x+size,start.y+size,start.z)));
+        lines.add(new Line(new Point (start.x - size/2, start.y + size/2, start.z), new Point (start.x + size/2, start.y + size/2, start.z))); // sol üst - sağ üst
+        lines.add(new Line(new Point (start.x - size/2, start.y - size/2, start.z), new Point (start.x + size/2, start.y - size/2 ,start.z))); // sol alt - sağ alt
+        
+        lines.add(new Line(new Point (start.x - size/2, start.y + size/2, start.z), new Point (start.x - size/2, start.y - size/2, start.z))); // sol üst - sol alt
+        lines.add(new Line(new Point (start.x + size/2, start.y + size/2, start.z), new Point (start.x + size/2, start.y - size/2 ,start.z))); // sağ üst - sağ alt
     }
     @Override
     public void tick() {
@@ -17,9 +18,9 @@ ArrayList<Line> lines;
     }
 
     @Override
-    public void render(Graphics g, int width, int height) {
+    public void render(Graphics g, Pov pov) {
         for(int i = 0; i < lines.size(); i++) {
-            lines.get(i).render(g, width, height);
+            lines.get(i).render(g, pov);
         }
     }
 
@@ -47,5 +48,8 @@ ArrayList<Line> lines;
         
     }
 
+    public ArrayList<Line> takeLines() {
+        return lines;
+    }
     
 }

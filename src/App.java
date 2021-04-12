@@ -10,16 +10,23 @@ public class App extends Canvas implements Runnable, KeyListener{
     public static final int HEIGHT = WIDTH / 12 * 9;
     public static Line line;
     private Thread thread;
-    boolean isRunning = false;  
+    boolean isRunning = false; 
+    Pov pov;
     
     Drawables drawable;
     Window window;
     public App() {
         window = new Window(WIDTH,HEIGHT, "3D Space" , this);
+        pov = new Pov(0,0,0,110,WIDTH, HEIGHT, 90, 90);
         addKeyListener(this);
         drawable = new Drawables();
-        drawable.addObject(new Line(new Point(0,0,2),new Point(100,100,2)));
-        drawable.addObject(new Square2D(new Point(30,30,0),20));
+        //drawable.addObject(new Line(new Point(10,30,1),new Point(50,-40,1)));
+        //drawable.addObject(new Line(new Point(0,0,1),new Point(50,50,1)));
+        //drawable.addObject(new Line(new Point(-10,10,1),new Point(-50,50,1)));
+        //drawable.addObject(new Line(new Point(10,30,1),new Point(50,-40,9)));
+        //drawable.addObject(new Square2D(new Point(30,30,1),20));
+        //drawable.addObject(new Square2D(new Point(-30,30,2),20));
+        drawable.addObject(new Square3D(new Point(100,100,1),50));
     }
 
     public synchronized void start() {
@@ -78,26 +85,29 @@ public class App extends Canvas implements Runnable, KeyListener{
         Graphics g = bs.getDrawGraphics();
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, WIDTH, HEIGHT);
+        g.setColor(Color.WHITE);
+        CordinateSystem cordinateSystem = new CordinateSystem(WIDTH, HEIGHT);
+        cordinateSystem.render(g, pov);
         g.dispose();
         Graphics objects = bs.getDrawGraphics();
         objects.setColor(Color.RED);
-        drawable.render(objects,WIDTH,HEIGHT);
+        drawable.render(objects, pov);
         bs.show();
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_W) {
-            drawable.pressW();
+            pov.w();
         }
         if(e.getKeyCode() == KeyEvent.VK_A) {
-            drawable.pressA();
+            pov.a();
         }
         if(e.getKeyCode() == KeyEvent.VK_S) {
-            drawable.pressS();
+            pov.s();
         }
         if(e.getKeyCode() == KeyEvent.VK_D) {
-            drawable.pressD();
+            pov.d();
         }
     }
     public static void main(String[] args) throws Exception {
